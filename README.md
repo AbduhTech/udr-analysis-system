@@ -187,7 +187,7 @@ The system expects the JotForm export format with 38 columns. Key column indices
 | Column | Index | Question |
 |--------|-------|---------|
 | AI frequency | 7 | Q5: How often do you use AI tools? |
-| Q10 explain | 12 | Can explain concepts in own words |
+| Q10 explain | 12 | Can you explain concepts in your own words |
 | Q11 write | 13 | Can write program without AI |
 | Q14 first step | 14 | First step when code fails (direct MC) |
 | Q16 debug | 16 | Can fix bugs without AI |
