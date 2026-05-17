@@ -160,7 +160,7 @@ The system processes data from three methodological components simultaneously:
 **Component 1 — Participant Observation** (20 students, 7 sessions, Dec 2025–Mar 2026)  
 Processed by `observation_module.py` using F1.
 
-**Component 2 — Anonymous Survey** (23 responses, JotForm, April 2026)  (See The Survey Here: https://www.jotform.com/tables/261112389940053?st=cDd2R1cva3pJQkxEZlorYzMvZEhsV0N2NEYzalkxUnduTDJMSHNPaEpDMFVlRVdRUmFsQTFMUGxWM3ZVR1pDb0w1U3ZsR0ptelliMndOQUhncXNPb0ovUVQrazJmcjU1VE5Pcm4vMW05WElqWGNZRjlISTN6eHpmVGxJczVZNjc= )
+**Component 2 — Anonymous Survey** (23 responses, JotForm, April 2026)  (See The Survey Here:  )
 Processed by `survey_module.py` using F1, F2, F2b, F3, F4, F5.
 
 **Component 3 — Case Study** (Student A, 4h 15m session, April 2026)  
@@ -196,6 +196,8 @@ The system expects the JotForm export format with 38 columns. Key column indices
 | Q34 benefit | 34 | Would benefit from AI course |
 
 The survey module handles trilingual responses (English, Turkish, Arabic) on all Likert items.
+See the survey here:
+( https://www.jotform.com/tables/261112389940053 )
 
 ---
 
