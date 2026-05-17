@@ -196,7 +196,7 @@ The system expects the JotForm export format with 38 columns. Key column indices
 | Q34 benefit | 34 | Would benefit from AI course |
 
 The survey module handles trilingual responses (English, Turkish, Arabic) on all Likert items.
-See the survey here:
+See the survey here:  
 ( https://www.jotform.com/tables/261112389940053 )
 
 ---
