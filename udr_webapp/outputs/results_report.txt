@@ -1,0 +1,76 @@
+=================================================================
+  UDR ANALYSIS SYSTEM — RESULTS REPORT
+  Generated: 2026-05-20 14:13:56
+  Thesis: Analysing the Impact of AI-Assisted Coding Tools
+  Author: Abdelrahman Sabry Abdalla Ali Abada Belal
+  Beykoz University — Computer Engineering MSc, May 2026
+=================================================================
+
+── INPUT DATA SUMMARY ──────────────────────────────────────
+  Component 1 — Observation:  20 students, 7 sessions
+  Component 2 — Survey:       23 responses (JotForm, April 2026)
+  Component 3 — Case Study:   Student A, 4h15m session, April 2026
+
+── FORMULA OUTPUTS ─────────────────────────────────────────
+  F1 Relative Frequency:
+    Daily AI use:            12/23 = 52.2%
+    Weekly AI use:           7/23 = 30.4%
+    Daily+Weekly combined:   82.6%
+  F2 Likert Agreement Scores:
+    Q10 (explain concepts):  17/23 = 73.9%
+    Q11 (write without AI):  13/23 = 56.5%
+    Q16 (debug without AI):  11/23 = 47.8%
+    Q17 (AI-first Likert):   12/23 = 52.2%
+    Q18 (trace execution):   15/23 = 65.2%
+    Q19 (redo without AI):   13/23 = 56.5%
+    Q23 (struggle without):  13/23 = 56.5%
+    Q24 (passing w/o learn): 9/23 = 39.1%
+    Q34 (want AI course):    12/23 = 52.2%
+  F2b Disagreement Score:
+    Q32 (no AI training):    14/23 = 60.9%
+  F3 Competence Perception Gap:
+    G_competence = 73.9% - 56.5% = 17.4 pts
+  F4 Social Desirability Gap:
+    Q14 AI-first (direct):   5/23 = 21.7%
+    G_SDB = 52.2% - 21.7% = 30.4 pts
+  F5 Institutional Gap:
+    Supply (D(Q32)):         60.9%
+    Demand (A(Q34)):         52.2%
+  F6 Triangulation Validity:
+    Finding 1 (AI dependency):       VALID
+    Finding 2 (Illusory competence): VALID
+    Finding 3 (Debugging affected):  VALID
+    Finding 4 (Institutional fail):  VALID
+  F7 UDR Coding Score — Student A:
+    Task A (without AI):
+      Understanding: 0.0%  Debugging: 0.0%  Reasoning: 0.0%
+      Average: 0.0%
+    Task B (with AI):
+      Understanding: 0.0%  Debugging: 0.0%  Reasoning: 25.0%
+      Average: 8.3%
+    Illusory competence gap: 80.0 pts — Detected
+    Classification: Unguided / dependent AI user
+
+=================================================================
+  ANSWERS TO RESEARCH QUESTIONS (RQ1-RQ4)
+=================================================================
+
+RQ1 ANSWER: AI-Gen tool use is the default cognitive condition at this educational level. 82.6% of survey respondents use AI tools daily or weekly (F1). 90.0% of the cohort used AI as their first resort (Observation, F1). Student A used AI before attempting independently (Case Study). All three UDR domains are affected, with differential severity.
+
+RQ2 ANSWER: Debugging is the most strongly affected UDR domain. Observation: Debugging (weakness rate) shows the highest weakness rate (85.0%). Survey: F4 social desirability gap = 30.4 pts — students under-report AI-first debugging on direct questions. Case Study: Student A scored 0% on Debugging in Task A (F7).
+
+RQ3 ANSWER: Yes — a measurable illusory competence gap is confirmed across all three components. Survey F3: 17.4-point competence perception gap (Q10 vs Q11). Survey F4: 30.4-point social desirability gap (Q17 vs Q14). Case Study F7: Student A scored 0% on Task A despite claiming 80% self-reliance — illusory gap = 80.0 points.
+
+RQ4 ANSWER: Guided use is rare without structured instruction. No cohort student demonstrated consistent guided-use behavior. Student A articulated guided-use principles (80/20 rule) but defaulted to unguided behavior in Task B ('do it for me'). Institutional failure confirmed: 60.9% denied receiving AI training (F2b) while 52.2% demand a structured course (F2/F5).
+
+=================================================================
+  OBSERVATION COMPONENT SUMMARY
+=================================================================
+  AI dependency rate:        90.0%
+  Explanation failure rate:  80.0%
+  Debugging weakness rate:   85.0%
+  Reasoning weakness rate:   80.0%
+  Institutional gap rate:    100.0%
+  Most affected domain:      Debugging (weakness rate)
+
+=================================================================
