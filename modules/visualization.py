@@ -210,12 +210,135 @@ def plot_institutional_gap(survey):
     return _save(fig, 'fig5_institutional_gap.png')
 
 
-def generate_all_figures(survey):
-    """Generate all 5 thesis figures. Returns list of saved paths."""
+def plot_triangulation_figure(observation, survey, case_study, final):
+    """Figure 6 (thesis 4.6) — F6: Convergent Triangulation Validity Evidence"""
+
+    def _pct_of_threshold(actual, threshold, inverted=False):
+        """Express actual value as % of the required threshold (100 = exactly met)."""
+        if threshold == 0:
+            return 0.0
+        if inverted:
+            # lower is better: score > 100 when actual < threshold
+            return min(max((threshold - actual) / threshold * 100 + 100, 0), 200)
+        return min(actual / threshold * 100, 200)
+
+    obs_ai   = observation.get('ai_dependency_rate', 0)
+    obs_exp  = observation.get('explanation_failure_rate', 0)
+    obs_dbg  = observation.get('debugging_weakness_rate', 0)
+    obs_inst = observation.get('institutional_gap_rate', 0)
+    surv_dw  = survey.get('daily_weekly_pct', 0)
+    surv_gc  = survey.get('g_competence', 0)
+    surv_sdb = survey.get('g_sdb', 0)
+    surv_sup = survey.get('institutional_supply', 0)
+    cs_ai    = 100.0 if case_study.get('used_ai_before_thinking', False) else 0.0
+    cs_ill   = case_study.get('illusory_gap', 0)
+    cs_dbg   = case_study.get('task_a_debugging', 25)
+    cs_dep   = case_study.get('dependency_level', 0)
+
+    findings = [
+        {
+            'title':  'Finding 1 — AI Dependency as Default  (RQ1)',
+            'valid':  final.get('finding1_ai_dependency_valid', False),
+            'labels': [f'C1: Observation — {obs_ai}% AI-first\n(threshold ≥ 70%)',
+                       f'C2: Survey — {surv_dw}% daily+weekly use\n(threshold ≥ 70%)',
+                       f'C3: Case Study — AI used before attempt\n(Task B confirmed)'],
+            'scores': [_pct_of_threshold(obs_ai, 70),
+                       _pct_of_threshold(surv_dw, 70),
+                       cs_ai],
+        },
+        {
+            'title':  'Finding 2 — Illusory Competence Gap  (RQ3)',
+            'valid':  final.get('finding2_illusory_competence_valid', False),
+            'labels': [f'C1: Observation — {obs_exp}% explanation failure\n(threshold ≥ 60%)',
+                       f'C2: Survey F3 — {surv_gc} pt competence gap\n(threshold ≥ 10 pts)',
+                       f'C3: Case Study F7 — {cs_ill} pt illusory gap\n(threshold ≥ 30 pts)'],
+            'scores': [_pct_of_threshold(obs_exp, 60),
+                       _pct_of_threshold(surv_gc, 10),
+                       _pct_of_threshold(cs_ill, 30)],
+        },
+        {
+            'title':  'Finding 3 — Debugging Most Affected  (RQ2)',
+            'valid':  final.get('finding3_debugging_affected_valid', False),
+            'labels': [f'C1: Observation — {obs_dbg}% debugging weakness\n(threshold ≥ 70%)',
+                       f'C2: Survey F4 — {surv_sdb} pt SDB gap\n(threshold ≥ 20 pts)',
+                       f'C3: Case Study F7 — Task A D-score {cs_dbg}%\n(threshold ≤ 25%)'],
+            'scores': [_pct_of_threshold(obs_dbg, 70),
+                       _pct_of_threshold(surv_sdb, 20),
+                       _pct_of_threshold(cs_dbg, 25, inverted=True)],
+        },
+        {
+            'title':  'Finding 4 — Institutional Failure  (RQ4)',
+            'valid':  final.get('finding4_institutional_failure_valid', False),
+            'labels': [f'C1: Observation — {obs_inst}% institutional gap\n(threshold ≥ 80%)',
+                       f'C2: Survey F2b — {surv_sup}% no AI training\n(threshold ≥ 50%)',
+                       f'C3: Case Study — dependency {cs_dep}/10\n(threshold ≥ 7/10)'],
+            'scores': [_pct_of_threshold(obs_inst, 80),
+                       _pct_of_threshold(surv_sup, 50),
+                       _pct_of_threshold(cs_dep, 7)],
+        },
+    ]
+
+    grays = ['#1a1a1a', '#555555', '#999999']   # C1, C2, C3 — consistent with other figs
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 9))
+    fig.patch.set_facecolor('white')
+    fig.suptitle(
+        'Figure 6 — F6: Convergent Triangulation Validity\n'
+        'Evidence score per component (100% = threshold exactly met — higher is stronger)',
+        fontsize=11, fontweight='bold', fontfamily=FONT, y=1.01
+    )
+
+    for ax, fd in zip(axes.flat, findings):
+        scores = fd['scores']
+        labels = fd['labels']
+        y_pos  = np.arange(len(labels))
+
+        bars = ax.barh(y_pos, scores, color=grays, edgecolor='white', height=0.52)
+
+        # Threshold line
+        ax.axvline(x=100, color='black', linewidth=1.4, linestyle='--', alpha=0.6)
+        ax.text(101, len(labels) - 0.38, 'Threshold',
+                fontsize=7.5, fontfamily=FONT, color='#444', va='top')
+
+        # Value labels on bars
+        for bar, score in zip(bars, scores):
+            ax.text(min(score, 196) + 2, bar.get_y() + bar.get_height() / 2,
+                    f'{score:.0f}%', va='center', fontsize=9.5, fontfamily=FONT)
+
+        ax.set_yticks(y_pos)
+        ax.set_yticklabels(labels, fontsize=8.5, fontfamily=FONT, linespacing=1.3)
+        ax.set_xlim(0, 230)
+        ax.set_xlabel('Evidence score as % of required threshold  —  F6: F1(c) = (actual/threshold) × 100',
+                      fontsize=7.5, fontfamily=FONT)
+
+        validity_tag = 'F6: VALID' if fd['valid'] else 'F6: NOT VALID'
+        ax.set_title(f'{fd["title"]}\n{validity_tag}',
+                     fontsize=9.5, fontweight='bold', fontfamily=FONT, pad=7)
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+
+    all_valid = final.get('all_findings_valid', False)
+    n_valid   = sum(1 for fd in findings if fd['valid'])
+    banner    = (f'All {n_valid}/4 findings validated — F6 convergent triangulation confirms cross-component consistency'
+                 if all_valid else
+                 f'{n_valid}/4 findings validated — review individual panels above')
+    fig.text(0.5, -0.01, banner, ha='center', fontsize=9.5,
+             fontweight='bold', fontfamily=FONT,
+             bbox=dict(boxstyle='round,pad=0.4', facecolor='#1a1a1a', edgecolor='none'),
+             color='white')
+
+    plt.tight_layout()
+    return _save(fig, 'fig6_triangulation.png')
+
+
+def generate_all_figures(survey, observation=None, case_study=None, final=None):
+    """Generate all thesis figures. Returns list of saved paths."""
     paths = []
     paths.append(plot_ai_frequency(survey))
     paths.append(plot_udr_profile(survey))
     paths.append(plot_debugging_gap(survey))
     paths.append(plot_illusory_competence(survey))
     paths.append(plot_institutional_gap(survey))
+    if observation is not None and case_study is not None and final is not None:
+        paths.append(plot_triangulation_figure(observation, survey, case_study, final))
     return paths

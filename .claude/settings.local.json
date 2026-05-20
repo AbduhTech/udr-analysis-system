@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m py_compile udr_gui.py)",
+      "Bash(python -m py_compile modules/visualization.py)"
+    ]
+  }
+}

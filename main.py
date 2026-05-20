@@ -19,6 +19,7 @@ OUTPUT:
     outputs/fig3_debugging_gap.png
     outputs/fig4_illusory_competence.png
     outputs/fig5_institutional_gap.png
+    outputs/fig6_triangulation.png
     outputs/results_report.txt
 ================================================================
 """
@@ -99,7 +100,7 @@ def main():
     # ── Generate figures ──────────────────────────────────────
     print('\nSTEP 6 — Generating output figures...')
     try:
-        paths = generate_all_figures(survey)
+        paths = generate_all_figures(survey, observation, case_study, final)
         for p in paths:
             print(f'  Saved: {p}')
     except Exception as e:
