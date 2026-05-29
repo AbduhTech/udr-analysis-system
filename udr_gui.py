@@ -40,6 +40,22 @@ class UDRGUI:
         tk.Label(root,
                  text="UDR Research Analysis System",
                  font=("Arial", 20, "bold")).pack(pady=10)
+        udr_frame = tk.Frame(root)
+        udr_frame.pack(pady=2)
+        tk.Label(udr_frame, text="UDR", font=(
+            "Georgia", 12, "italic")).pack(side="left")
+        tk.Label(udr_frame, text=" (U",
+                 font=("Georgia", 12, "bold italic")).pack(side="left")
+        tk.Label(udr_frame, text="nderstanding, ",
+                 font=("Georgia", 12, "italic")).pack(side="left")
+        tk.Label(udr_frame, text=" D",
+                 font=("Georgia", 12, "bold italic")).pack(side="left")
+        tk.Label(udr_frame, text="ebugging, ",
+                 font=("Georgia", 12, "italic")).pack(side="left")
+        tk.Label(udr_frame, text=" R",
+                 font=("Georgia", 12, "bold italic")).pack(side="left")
+        tk.Label(udr_frame, text="easoning)",
+                 font=("Georgia", 12, "italic")).pack(side="left")
         tk.Label(root,
                  text="Analysing the Impact of AI-Assisted Coding Tools on Programming Skill Development",
                  font=("Arial", 10)).pack()

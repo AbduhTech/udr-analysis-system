@@ -11,7 +11,7 @@ import csv
 from modules.formula_engine import (
     F1_relative_frequency, F2_likert_agreement,
     F2b_likert_disagreement, F3_competence_gap,
-    F4_social_desirability_gap, F5_institutional_gap
+    F4_debugging_displacement_gap, F5_institutional_gap
 )
 
 # ── Verified column indices from JotForm CSV export ──────────
@@ -109,7 +109,7 @@ def analyze_survey(csv_path):
     g_competence = F3_competence_gap(q10_pct, q11_pct)
 
     # ── F4: Social desirability gap ───────────────────────────
-    g_sdb = F4_social_desirability_gap(q17_pct, ai_pct)
+    g_sdb = F4_debugging_displacement_gap(q17_pct, ai_pct)
 
     # ── F5: Institutional gap ─────────────────────────────────
     supply, demand = F5_institutional_gap(q32_pct, q34_pct)

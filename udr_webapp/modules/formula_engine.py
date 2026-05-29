@@ -77,14 +77,16 @@ def F3_competence_gap(a_q12, a_q13):
     return round(a_q12 - a_q13, 1)
 
 
-def F4_social_desirability_gap(a_q17, p_ai_q14):
+def F4_debugging_displacement_gap(a_q13, a_q14):
     """
-    FORMULA F4 - Social Desirability Gap
-    G_SDB = A(Q17) - P_AI(Q14)
-    Detects discrepancy between stated and actual debugging
-    behavior. Answers RQ2 and RQ4.
+    FORMULA F4 - Debugging Displacement Gap
+    G_SDB = A(Q13) - A(Q14)
+    Measures the gap between AI-first debugging behavior
+    (Q13: first action is to copy error to AI, 52.2%) and
+    independent tracing confidence (Q14: can trace execution
+    step-by-step, 21.7%). Answers RQ2 and RQ4.
     """
-    return round(a_q17 - p_ai_q14, 1)
+    return round(a_q13 - a_q14, 1)
 
 
 def F5_institutional_gap(d_q32, a_q34):

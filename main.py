@@ -70,7 +70,7 @@ def main():
     print(f'  F2 Q10 (explain):         {survey["q10_pct"]}%')
     print(f'  F2 Q11 (write w/o AI):    {survey["q11_pct"]}%')
     print(f'  F2 Q16 (debug w/o AI):    {survey["q16_pct"]}%')
-    print(f'  F2 Q17 (AI-first Likert): {survey["q17_pct"]}%')
+    print(f'  F2 Q13 (AI-first Likert): {survey["q13_pct"]}%')
     print(f'  F2b Q32 (no training):    {survey["q32_pct"]}%')
     print(f'  F3 Competence gap:        {survey["g_competence"]} pts')
     print(f'  F4 Social desirability:   {survey["g_sdb"]} pts')

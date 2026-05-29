@@ -214,11 +214,9 @@ def plot_triangulation_figure(observation, survey, case_study, final):
     """Figure 6 (thesis 4.6) — F6: Convergent Triangulation Validity Evidence"""
 
     def _pct_of_threshold(actual, threshold, inverted=False):
-        """Express actual value as % of the required threshold (100 = exactly met)."""
         if threshold == 0:
             return 0.0
         if inverted:
-            # lower is better: score > 100 when actual < threshold
             return min(max((threshold - actual) / threshold * 100 + 100, 0), 200)
         return min(actual / threshold * 100, 200)
 
@@ -280,25 +278,35 @@ def plot_triangulation_figure(observation, survey, case_study, final):
 
     grays = ['#1a1a1a', '#555555', '#999999']   # C1, C2, C3 — consistent with other figs
 
-    fig, axes = plt.subplots(2, 2, figsize=(14, 9))
+    # FIX: larger figure for breathing room
+    fig, axes = plt.subplots(2, 2, figsize=(16, 11))
     fig.patch.set_facecolor('white')
+
+    # FIX: suptitle at top with proper font size and position
     fig.suptitle(
         'Figure 6 — F6: Convergent Triangulation Validity\n'
         'Evidence score per component (100% = threshold exactly met — higher is stronger)',
-        fontsize=11, fontweight='bold', fontfamily=FONT, y=1.01
+        fontsize=14, fontweight='bold', fontfamily=FONT, y=0.98
     )
 
     for ax, fd in zip(axes.flat, findings):
         scores = fd['scores']
         labels = fd['labels']
-        y_pos  = np.arange(len(labels))
+        y_pos  = np.arange(len(labels))   # C1=0 (bottom), C2=1, C3=2 (top)
 
         bars = ax.barh(y_pos, scores, color=grays, edgecolor='white', height=0.52)
 
         # Threshold line
-        ax.axvline(x=100, color='black', linewidth=1.4, linestyle='--', alpha=0.6)
-        ax.text(101, len(labels) - 0.38, 'Threshold',
-                fontsize=7.5, fontfamily=FONT, color='#444', va='top')
+        ax.axvline(x=100, color='black', linewidth=1.4, linestyle='--', alpha=0.6,
+                   zorder=2)
+
+        # FIX: threshold label at mid-height (y=1) with white background box —
+        # does not overlap subplot title or any bar label
+        ax.text(100, 1, 'Threshold',
+                fontsize=7.5, fontfamily=FONT, color='#444',
+                va='center', ha='center', zorder=4,
+                bbox=dict(boxstyle='round,pad=0.25', facecolor='white',
+                          edgecolor='gray', alpha=0.9, linewidth=0.8))
 
         # Value labels on bars
         for bar, score in zip(bars, scores):
@@ -307,28 +315,49 @@ def plot_triangulation_figure(observation, survey, case_study, final):
 
         ax.set_yticks(y_pos)
         ax.set_yticklabels(labels, fontsize=8.5, fontfamily=FONT, linespacing=1.3)
+        # FIX: padding between y-tick labels and axis spine
+        ax.tick_params(axis='y', pad=8)
         ax.set_xlim(0, 230)
-        ax.set_xlabel('Evidence score as % of required threshold  —  F6: F1(c) = (actual/threshold) × 100',
-                      fontsize=7.5, fontfamily=FONT)
+        # FIX: wrapped x-axis label so right column is not clipped
+        ax.set_xlabel(
+            'Evidence score as % of required threshold\n'
+            'F6: F1(c) = (actual/threshold) × 100',
+            fontsize=7.5, fontfamily=FONT, labelpad=6
+        )
 
         validity_tag = 'F6: VALID' if fd['valid'] else 'F6: NOT VALID'
         ax.set_title(f'{fd["title"]}\n{validity_tag}',
                      fontsize=9.5, fontweight='bold', fontfamily=FONT, pad=7)
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
+        ax.set_facecolor('white')
+
+    # FIX: explicit subplots_adjust replaces tight_layout —
+    # wspace=0.55 stops right-column y-labels colliding with left-column plots;
+    # bottom=0.10 reserves room for the banner at y=0.02
+    fig.subplots_adjust(
+        left=0.18, right=0.96, top=0.90, bottom=0.10,
+        wspace=0.55, hspace=0.45
+    )
 
     all_valid = final.get('all_findings_valid', False)
     n_valid   = sum(1 for fd in findings if fd['valid'])
     banner    = (f'All {n_valid}/4 findings validated — F6 convergent triangulation confirms cross-component consistency'
                  if all_valid else
                  f'{n_valid}/4 findings validated — review individual panels above')
-    fig.text(0.5, -0.01, banner, ha='center', fontsize=9.5,
+
+    # FIX: banner at y=0.02 — clear of the bottom subplot row (which starts at 0.10)
+    fig.text(0.5, 0.02, banner, ha='center', va='bottom', fontsize=9.5,
              fontweight='bold', fontfamily=FONT,
              bbox=dict(boxstyle='round,pad=0.4', facecolor='#1a1a1a', edgecolor='none'),
              color='white')
 
-    plt.tight_layout()
-    return _save(fig, 'fig6_triangulation.png')
+    # FIX: custom save with pad_inches=0.4 so no text is clipped at export
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    path = os.path.join(OUTPUT_DIR, 'fig6_triangulation.png')
+    fig.savefig(path, dpi=180, bbox_inches='tight', pad_inches=0.4, facecolor='white')
+    plt.close(fig)
+    return path
 
 
 def generate_all_figures(survey, observation=None, case_study=None, final=None):

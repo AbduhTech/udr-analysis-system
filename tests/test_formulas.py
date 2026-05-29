@@ -21,7 +21,7 @@ from modules.formula_engine import (
     F2_likert_agreement,
     F2b_likert_disagreement,
     F3_competence_gap,
-    F4_social_desirability_gap,
+    F4_debugging_displacement_gap,
     F5_institutional_gap,
     F6_triangulation_validity,
     F7_udr_coding_score,
@@ -195,19 +195,19 @@ class TestF4SocialDesirabilityGap:
 
     def test_thesis_value(self):
         """52.2% - 21.7% = 30.4 (rounding may give 30.5)"""
-        result = F4_social_desirability_gap(52.2, 21.7)
+        result = F4_debugging_displacement_gap(52.2, 21.7)
         assert abs(result - 30.5) < 0.2  # allow rounding tolerance
 
     def test_no_gap(self):
-        assert F4_social_desirability_gap(50.0, 50.0) == 0.0
+        assert F4_debugging_displacement_gap(50.0, 50.0) == 0.0
 
     def test_negative_gap(self):
         """Direct > Indirect would indicate reverse desirability bias"""
-        result = F4_social_desirability_gap(20.0, 50.0)
+        result = F4_debugging_displacement_gap(20.0, 50.0)
         assert result == -30.0
 
     def test_returns_float(self):
-        assert isinstance(F4_social_desirability_gap(52.2, 21.7), float)
+        assert isinstance(F4_debugging_displacement_gap(52.2, 21.7), float)
 
 
 # ══════════════════════════════════════════════════════════════

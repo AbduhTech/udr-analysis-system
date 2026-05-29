@@ -11,7 +11,7 @@ import csv
 from modules.formula_engine import (
     F1_relative_frequency, F2_likert_agreement,
     F2b_likert_disagreement, F3_competence_gap,
-    F4_social_desirability_gap, F5_institutional_gap
+    F4_debugging_displacement_gap, F5_institutional_gap
 )
 
 # ── Verified column indices from JotForm CSV export ──────────
@@ -108,8 +108,8 @@ def analyze_survey(csv_path):
     # ── F3: Competence perception gap ────────────────────────
     g_competence = F3_competence_gap(q10_pct, q11_pct)
 
-    # ── F4: Social desirability gap ───────────────────────────
-    g_sdb = F4_social_desirability_gap(q17_pct, ai_pct)
+    # ── F4: Debugging displacement gap ───────────────────────
+    g_sdb = F4_debugging_displacement_gap(q17_pct, ai_pct)
 
     # ── F5: Institutional gap ─────────────────────────────────
     supply, demand = F5_institutional_gap(q32_pct, q34_pct)
@@ -127,7 +127,8 @@ def analyze_survey(csv_path):
         'q10_pct': q10_pct,   'q10_n': q10_n,   # Understanding: explain
         'q11_pct': q11_pct,   'q11_n': q11_n,   # Understanding: write without AI
         'q16_pct': q16_pct,   'q16_n': q16_n,   # Debugging: fix without AI
-        'q17_pct': q17_pct,   'q17_n': q17_n,   # Debugging: AI-first (Likert)
+        'q17_pct': q17_pct,   'q17_n': q17_n,   # Debugging: AI-first Likert (thesis Q13)
+        'q13_pct': q17_pct,   'q13_n': q17_n,   # Thesis Q13 alias (col 17)
         'q18_pct': q18_pct,   'q18_n': q18_n,   # Reasoning: trace execution
         'q19_pct': q19_pct,   'q19_n': q19_n,   # Reasoning: redo without AI
         'q20_pct': q20_pct,   'q20_n': q20_n,   # Understanding: teach others
@@ -141,8 +142,9 @@ def analyze_survey(csv_path):
         'q34_pct': q34_pct,   'q34_n': q34_n,   # Want AI course
         # F2b
         'q32_pct': q32_pct,   'q32_n': q32_n,   # No AI training received
-        # Q14 direct
+        # Q14 direct (thesis Q14 = AI-first MC)
         'q14_ai_pct': ai_pct, 'q14_ai_n': ai_n,
+        'q14_pct': ai_pct,    'q14_n': ai_n,
         'q14_read_pct': read_pct, 'q14_read_n': read_n,
         # F3
         'g_competence': g_competence,
@@ -164,6 +166,7 @@ def analyze_survey_demo():
         'q11_pct': 56.5, 'q11_n': 13,
         'q16_pct': 47.8, 'q16_n': 11,
         'q17_pct': 52.2, 'q17_n': 12,
+        'q13_pct': 52.2, 'q13_n': 12,
         'q18_pct': 65.2, 'q18_n': 15,
         'q19_pct': 56.5, 'q19_n': 13,
         'q20_pct': 60.9, 'q20_n': 14,
@@ -177,6 +180,7 @@ def analyze_survey_demo():
         'q34_pct': 52.2, 'q34_n': 12,
         'q32_pct': 60.9, 'q32_n': 14,
         'q14_ai_pct': 21.7, 'q14_ai_n': 5,
+        'q14_pct': 21.7,    'q14_n': 5,
         'q14_read_pct': 65.2, 'q14_read_n': 15,
         'g_competence': 17.4,
         'g_sdb': 30.4,
