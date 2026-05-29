@@ -20,8 +20,11 @@ FONT = 'serif'
 
 
 def _save(fig, filename):
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    path = os.path.join(OUTPUT_DIR, filename)
+    try:
+        os.makedirs(OUTPUT_DIR, exist_ok=True)
+        path = os.path.join(OUTPUT_DIR, filename)
+    except OSError:
+        path = os.path.join('/tmp', filename)
     fig.savefig(path, dpi=180, bbox_inches='tight', facecolor='white')
     plt.close(fig)
     return path

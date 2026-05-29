@@ -115,8 +115,12 @@ def generate_text_report(observation, survey, case_study, final):
 
     report_text = '\n'.join(lines)
 
-    out_path = os.path.join(_OUTPUT_DIR, 'results_report.txt')
-    with open(out_path, 'w', encoding='utf-8') as f:
-        f.write(report_text)
+    try:
+        os.makedirs(_OUTPUT_DIR, exist_ok=True)
+        out_path = os.path.join(_OUTPUT_DIR, 'results_report.txt')
+        with open(out_path, 'w', encoding='utf-8') as f:
+            f.write(report_text)
+    except OSError:
+        pass
 
     return report_text
